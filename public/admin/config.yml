@@ -1,0 +1,86 @@
+
+local_backend: true
+
+publish_mode: editorial_workflow
+
+backend:
+  name: github
+  repo: cchaglund/astro-testing
+  branch: main
+
+media_folder: "src/assets/images" # Location where files will be stored in the repo
+public_folder: "src/assets/images" # The src attribute for uploaded media
+
+editor:
+  preview: false
+
+collections:
+  # Removed duplicate 'pages' collection. Only the advanced page builder version remains below.
+  - name: "blogs"
+    label: "Blogs"
+    folder: "data/blogs"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - label: "Blocks"
+        name: "blocks"
+        widget: "list"
+        types:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Headline", name: "headline", widget: "string" }
+          - label: "Heading"
+            name: "heading"
+            widget: "object"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+          - label: "Paragraph"
+            name: "paragraph"
+  - name: "pages"
+    label: "Pages"
+    folder: "src/pages"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Blocks"
+        name: "blocks"
+        widget: "list"
+        types:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Headline", name: "headline", widget: "string" }
+          - label: "Paragraph"
+            name: "paragraph"
+            widget: "object"
+            fields:
+              - { label: "Text", name: "text", widget: "markdown" }
+          - label: "USPs Section"
+            name: "usps_section"
+            widget: "object"
+            fields:
+              - label: "Section Title"
+                name: "section_title"
+                widget: "string"
+              - label: "USPs"
+                name: "usps"
+                widget: "list"
+                fields:
+                  - { label: "USP Title", name: "usp_title", widget: "string" }
+                  - { label: "USP Description", name: "usp_description", widget: "text" }
+          - label: "Slider"
+            name: "slider"
+            widget: "object"
+            fields:
+              - { label: "Slides", name: "slides", widget: "list", field: { label: "Image", name: "image", widget: "image" } }

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+    <title>Content Manager</title>
+</head>
+
+<body>
+    <!-- Add these scripts to the bottom of the body -->
+    <!-- <script src="https://unpkg.com/react@^18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@^18/umd/react-dom.production.min.js"></script> -->
+    <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+
+    <script>
+        window.CMS.registerPreviewStyle("/admin/custom-dark.css");
+    </script>
+
+    <!-- <script>
+        var PostPreview = createClass({
+            render: function () {
+                var entry = this.props.entry;
+                var image = entry.getIn([ 'data', 'image' ]);
+                var bg = this.props.getAsset(image);
+                return h('div', {},
+                    h('h1', {}, entry.getIn([ 'data', 'title' ])),
+                    h('img', { src: bg.toString() }),
+                    h('div', { "className": "text" }, this.props.widgetFor('body'))
+                );
+            }
+        });
+
+        CMS.registerPreviewTemplate("posts", PostPreview);
+    </script> -->
+
+
+    <!-- Initialize the CMS -->
+    <!-- <script>
+        DecapCmsApp.init();
+    </script> -->
+</body>
+
+</html>
