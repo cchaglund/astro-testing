@@ -1,0 +1,30 @@
+{
+  "title": "Example page",
+  "url-slug": "example-page",
+  "description": "Quis laborum officia commodo dolor excepteur non voluptate commodo officia eu incididunt ea magna.",
+  "blocks": [
+    {
+      "type": "hero",
+      "image": "src/assets/images/ryan-stone-u3cctubucn0-unsplash.jpg",
+      "headline": "Hero headline goes here"
+    },
+    {
+      "type": "usps_section",
+      "section_title": "Lorem ipsum dolor sit ament",
+      "usps": [
+        {
+          "usp_title": "Heading for USP",
+          "usp_description": "Body for USP!"
+        },
+        {
+          "usp_title": "Second usp heading",
+          "usp_description": "Some other text"
+        },
+        {
+          "usp_title": "Third USP",
+          "usp_description": "Etc etc"
+        }
+      ]
+    }
+  ]
+}

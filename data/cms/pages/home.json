@@ -1,5 +1,5 @@
 {
-  "title": "Page builder example",
+  "title": "Home",
   "blocks": [
     {
       "type": "hero",
@@ -35,5 +35,11 @@
         "src/assets/images/ryan-stone-u3cctubucn0-unsplash.jpg"
       ]
     }
-  ]
+  ],
+  "url-slug": "home",
+  "description": "Voluptate voluptate dolore officia adipisicing irure nisi",
+  "featured_image": "src/assets/images/iqro-rinaldi-csqvttsxoa8-unsplash-medium.jpeg",
+  "order": 2,
+  "menu": "Main menu",
+  "id": "page-builder-file-teeeest"
 }

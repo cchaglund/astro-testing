@@ -16,41 +16,67 @@ editor:
 
 collections:
   # Removed duplicate 'pages' collection. Only the advanced page builder version remains below.
-  - name: "blogs"
-    label: "Blogs"
-    folder: "data/blogs"
-    format: "json"
-    create: true
-    slug: "{{slug}}"
-    summary: "{{title}} — {{date}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - label: "Blocks"
-        name: "blocks"
-        widget: "list"
-        types:
-          - label: "Hero"
-            name: "hero"
-            widget: "object"
-            fields:
-              - { label: "Image", name: "image", widget: "image" }
-              - { label: "Headline", name: "headline", widget: "string" }
-          - label: "Heading"
-            name: "heading"
-            widget: "object"
-            fields:
-              - { label: "Text", name: "text", widget: "string" }
-          - label: "Paragraph"
-            name: "paragraph"
+  # - name: "blogs"
+  #   label: "Blogs"
+  #   label_singular: "Blog"
+  #   folder: "data/blogs"
+  #   format: "json"
+  #   create: true
+  #   slug: "{{slug}}"
+  #   summary: "{{slug}} - {{commit_date}} {{commit_author}}"
+  #   fields:
+  #     - { label: "Title", name: "title", widget: "string" }
+  #     - { label: "Date", name: "date", widget: "datetime" }
+  #     - label: "Blocks"
+  #       name: "blocks"
+  #       widget: "list"
+  #       types:
+  #         - label: "Hero"
+  #           name: "hero"
+  #           widget: "object"
+  #           fields:
+  #             - { label: "Image", name: "image", widget: "image" }
+  #             - { label: "Headline", name: "headline", widget: "string" }
+  #         - label: "Heading"
+  #           name: "heading"
+  #           widget: "object"
+  #           fields:
+  #             - { label: "Text", name: "text", widget: "string" }
+  #         - label: "Paragraph"
+  #           name: "paragraph"
   - name: "pages"
     label: "Pages"
-    folder: "src/pages"
+    label_singular: "Page"
+    folder: "data/cms/pages"
     format: "json"
     create: true
     slug: "{{slug}}"
+    # identifier_field: id
+    summary: "{{title}} [{{filename}}]"
     fields:
       - { label: "Title", name: "title", widget: "string" }
+      - label: "URL Slug"
+        name: "url-slug"
+        widget: "string"
+        pattern: ['^[a-z0-9\-]+$', "Only lowercase letters, numbers, and dashes are allowed."]
+        hint: "Use only lowercase letters, numbers, and dashes. No spaces or special characters."
+      - { label: "Order", name: "order", widget: "number", hint: "Use this to set the order of pages in menus.", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false  }
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+      
+      # - label: "Page Settings"
+      #   name: "page-settings"
+      #   collapsed: true
+      #   widget: "object"
+      #   fields:
+      #     - label: "URL Slug"
+      #       name: "url-slug"
+      #       widget: "string"
+      #       pattern: ['^[a-z0-9\-]+$', "Only lowercase letters, numbers, and dashes are allowed."]
+      #       hint: "Use only lowercase letters, numbers, and dashes. No spaces or special characters."
+      #     - { label: "Description", name: "description", widget: "text", required: false  }
+      #     - { label: "Featured Image", name: "featured_image", widget: "image", required: false }
+      #     - { label: "Order", name: "order", widget: "number", hint: "Use this to set the order of pages in menus.", required: false }
       - label: "Blocks"
         name: "blocks"
         widget: "list"
@@ -58,9 +84,10 @@ collections:
           - label: "Hero"
             name: "hero"
             widget: "object"
+            hint: "The hero section with a large image and headline."
             fields:
-              - { label: "Image", name: "image", widget: "image" }
               - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Image", name: "image", widget: "image" }
           - label: "Paragraph"
             name: "paragraph"
             widget: "object"
@@ -83,4 +110,40 @@ collections:
             name: "slider"
             widget: "object"
             fields:
-              - { label: "Slides", name: "slides", widget: "list", field: { label: "Image", name: "image", widget: "image" } }
+              - { label: "Slides", name: "slides", widget: "list", summary: "{{image}}", field: { label: "Image", name: "image", widget: "image" } }
+          - label: "Secondary Menu"
+            name: "secondary_menu"
+            widget: "object"
+            fields:
+              - label: "Menu name"
+                name: "menu-name"
+                widget: "relation"
+                collection: "menus"
+                search_fields: ["title"]
+                value_field: "title"
+                display_fields: ["title"]
+  - name: "menus"
+    label: "Menus"
+    label_singular: "Menu"
+    folder: "data/cms/menus"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} [{{filename}}]"
+    fields:
+      - { label: "Menu Title", name: "title", widget: "string" }
+      - label: "Links to pages"
+        name: "links-to-pages"
+        widget: "list"
+        hint: "Add links to the pages you want in this menu."
+        summary: "{{page}}"
+        min: 1
+        max: 10
+        field:
+          label: "Page"
+          name: "page"
+          widget: "relation"
+          collection: "pages"
+          search_fields: ["title"]
+          value_field: "{{title}} [{{filename}}]"
+          display_fields: ["{{title}} [{{filename}}]"]
