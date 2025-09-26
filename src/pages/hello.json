@@ -1,0 +1,39 @@
+{
+  "title": "Page builder example",
+  "blocks": [
+    {
+      "type": "hero",
+      "headline": "Lorem ipsum dolor sit amet",
+      "image": "src/assets/images/ryan-stone-u3cctubucn0-unsplash.jpg"
+    },
+    {
+      "type": "usps_section",
+      "section_title": "Fast, secure, fully decentralized",
+      "usps": [
+        {
+          "usp_title": "User-owned apps and data",
+          "usp_description": "Users control applications and data; ICP's access control prevents any single party from making changes without user consent."
+        },
+        {
+          "usp_title": "Tamperproof",
+          "usp_description": "ICP provably guarantees the integrity of the protocol and applications running on it, even if some node machines are malicious."
+        },
+        {
+          "usp_title": "Verifiable",
+          "usp_description": "ICP apps are verifiable—node-signed results ensure users can trust code behavior and data integrity, assuming honest majority."
+        },
+        {
+          "usp_title": "Robustness and Availability",
+          "usp_description": "ICP stays online and secure even during outages or failures, thanks to a fault-tolerant, decentralized protocol run by globally distributed, independent nodes."
+        }
+      ]
+    },
+    {
+      "type": "slider",
+      "slides": [
+        "src/assets/images/iqro-rinaldi-csqvttsxoa8-unsplash-medium.jpeg",
+        "src/assets/images/ryan-stone-u3cctubucn0-unsplash.jpg"
+      ]
+    }
+  ]
+}
