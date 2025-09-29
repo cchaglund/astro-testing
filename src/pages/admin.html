@@ -20,56 +20,60 @@
 
         const PagesPreview = createClass({
             render: function () {
-                var entry = this.props.entry;
-                var widgetFor = this.props.widgetFor;
-                var widgetsFor = this.props.widgetsFor;
-                var getAsset = this.props.getAsset;
+                const entry = this.props.entry;
+                const widgetFor = this.props.widgetFor;
+                const widgetsFor = this.props.widgetsFor;
+                const getAsset = this.props.getAsset;
 
-                var title = entry.getIn(['data', 'title']);
-                var urlSlug = entry.getIn(['data', 'url-slug']);
-                var description = entry.getIn(['data', 'description']);
-                var featuredImage = entry.getIn(['data', 'featured_image']);
-                var blockEls = null;
+                const title = entry && entry.getIn ? entry.getIn([ 'data', 'title' ]) : '';
+                const urlSlug = entry && entry.getIn ? entry.getIn([ 'data', 'url-slug' ]) : '';
+                const description = entry && entry.getIn ? entry.getIn([ 'data', 'description' ]) : '';
+                const featuredImage = entry && entry.getIn ? entry.getIn([ 'data', 'featured_image' ]) : '';
+                let blockEls = null;
 
-                var blocks = widgetsFor('blocks');
+                const blocks = widgetsFor && typeof widgetsFor === 'function' ? widgetsFor('blocks') : null;
 
-                if (blocks && blocks.size > 0) {
-                    blockEls = blocks.map(function(block) {
-                        var type = block.getIn(['data', 'type']);
+                if (blocks && typeof blocks.map === 'function' && blocks.size > 0) {
+                    blockEls = blocks.map(function (block) {
+                        const type = block && block.getIn ? block.getIn([ 'data', 'type' ]) : '';
+
                         if (type === 'hero') {
-                            var headline = block.getIn(['data', 'headline']);
-                            var image = block.getIn(['data', 'image']);
+                            const headline = block.getIn([ 'data', 'headline' ]) || '';
+                            const image = block.getIn([ 'data', 'image' ]) || '';
                             return h('section', { className: 'preview-hero' },
                                 h('h2', {}, headline),
-                                image ? h('img', { src: getAsset(image), style: { maxWidth: '100%' } }) : null
+                                image ? h('img', { src: getAsset ? getAsset(image) : '', style: { maxWidth: '100%' } }) : null
                             );
                         } else if (type === 'paragraph') {
+                            const textWidget = block.getIn([ 'widgets', 'text' ]) || '';
                             return h('section', { className: 'preview-paragraph' },
-                                block.getIn(['widgets', 'text'])
+                                textWidget
                             );
                         } else if (type === 'usps_section') {
-                            var sectionTitle = block.getIn(['data', 'section_title']);
-                            var usps = block.getIn(['data', 'usps']);
+                            const sectionTitle = block.getIn([ 'data', 'section_title' ]) || '';
+                            const usps = block.getIn([ 'data', 'usps' ]);
                             return h('section', { className: 'preview-usps' },
                                 h('h3', {}, sectionTitle),
-                                usps && usps.map(function(usp) {
+                                usps && typeof usps.map === 'function' ? usps.map(function (usp) {
+                                    const uspTitle = usp && usp.get ? usp.get('usp_title') : '';
+                                    const uspDesc = usp && usp.get ? usp.get('usp_description') : '';
                                     return h('div', { className: 'preview-usp' },
-                                        h('strong', {}, usp.get('usp_title')),
-                                        h('p', {}, usp.get('usp_description'))
+                                        h('strong', {}, uspTitle),
+                                        h('p', {}, uspDesc)
                                     );
-                                })
+                                }) : null
                             );
                         } else if (type === 'slider') {
-                            var slides = block.getIn(['data', 'slides']);
+                            const slides = block.getIn([ 'data', 'slides' ]);
                             return h('section', { className: 'preview-slider' },
                                 h('h4', {}, 'Slider'),
-                                slides && slides.map(function(img) {
-                                    var imgSrc = img.get ? getAsset(img.get('image')) : getAsset(img);
+                                slides && typeof slides.map === 'function' ? slides.map(function (img) {
+                                    const imgSrc = img && img.get ? (getAsset ? getAsset(img.get('image')) : '') : (getAsset ? getAsset(img) : '');
                                     return h('img', { src: imgSrc, style: { maxWidth: '100px', marginRight: '8px' } });
-                                })
+                                }) : null
                             );
                         } else if (type === 'secondary_menu') {
-                            var menuName = block.getIn(['data', 'menu-name']);
+                            const menuName = block.getIn([ 'data', 'menu-name' ]) || '';
                             return h('section', { className: 'preview-secondary-menu' },
                                 h('h4', {}, 'Secondary Menu'),
                                 h('p', {}, menuName)
@@ -83,7 +87,7 @@
                 return h('div', { className: 'preview-page' },
                     h('h1', { className: 'preview-title' }, title),
                     h('h2', { className: 'preview-url-slug' }, urlSlug),
-                    featuredImage ? h('img', { className: 'preview-featured-image', src: getAsset(featuredImage), style: { maxWidth: '100%' } }) : null,
+                    featuredImage ? h('img', { className: 'preview-featured-image', src: getAsset ? getAsset(featuredImage) : '', style: { maxWidth: '100%' } }) : null,
                     description ? h('p', { className: 'preview-description' }, description) : null,
                     blockEls
                 );
