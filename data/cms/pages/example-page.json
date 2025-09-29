@@ -9,6 +9,10 @@
       "headline": "Hero headline goes here"
     },
     {
+      "type": "secondary_menu",
+      "menu-name": "Secondary menu"
+    },
+    {
       "type": "usps_section",
       "section_title": "Lorem ipsum dolor sit ament",
       "usps": [
