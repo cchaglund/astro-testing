@@ -5,7 +5,19 @@
     {
       "type": "paragraph",
       "text": "loremlong"
+    },
+    {
+      "type": "usps_section",
+      "section_title": "UPS section title",
+      "usps": [
+        {
+          "usp_title": "title 1",
+          "usp_description": "lorem ipsum"
+        }
+      ]
     }
   ],
-  "description": "Voluptate voluptate dolore officia adipisicing irure nisi"
+  "order": 2,
+  "description": "Voluptate voluptate dolore officia adipisicing irure nisi",
+  "featured_image": "src/assets/images/iqro-rinaldi-csqvttsxoa8-unsplash-medium.jpeg"
 }

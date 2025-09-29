@@ -11,8 +11,8 @@ backend:
 media_folder: "src/assets/images" # Location where files will be stored in the repo
 public_folder: "src/assets/images" # The src attribute for uploaded media
 
-editor:
-  preview: false
+# editor:
+#   preview: false
 
 collections:
   # Removed duplicate 'pages' collection. Only the advanced page builder version remains below.
@@ -91,6 +91,7 @@ collections:
           - label: "Paragraph"
             name: "paragraph"
             widget: "object"
+            summary: "{{text | truncate(40, true, '...')}}"
             fields:
               - { label: "Text", name: "text", widget: "markdown" }
           - label: "USPs Section"

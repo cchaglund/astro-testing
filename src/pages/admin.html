@@ -11,36 +11,87 @@
 
 <body>
     <!-- Add these scripts to the bottom of the body -->
-    <!-- <script src="https://unpkg.com/react@^18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@^18/umd/react-dom.production.min.js"></script> -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
 
     <script>
-        window.CMS.registerPreviewStyle("/admin/custom-dark.css");
-    </script>
+        window.CMS.registerPreviewStyle("/admin/custom.css");
 
-    <!-- <script>
-        var PostPreview = createClass({
+        const PagesPreview = createClass({
             render: function () {
                 var entry = this.props.entry;
-                var image = entry.getIn([ 'data', 'image' ]);
-                var bg = this.props.getAsset(image);
-                return h('div', {},
-                    h('h1', {}, entry.getIn([ 'data', 'title' ])),
-                    h('img', { src: bg.toString() }),
-                    h('div', { "className": "text" }, this.props.widgetFor('body'))
+                var widgetFor = this.props.widgetFor;
+                var widgetsFor = this.props.widgetsFor;
+                var getAsset = this.props.getAsset;
+
+                var title = entry.getIn(['data', 'title']);
+                var urlSlug = entry.getIn(['data', 'url-slug']);
+                var description = entry.getIn(['data', 'description']);
+                var featuredImage = entry.getIn(['data', 'featured_image']);
+                var blockEls = null;
+
+                var blocks = widgetsFor('blocks');
+
+                if (blocks && blocks.size > 0) {
+                    blockEls = blocks.map(function(block) {
+                        var type = block.getIn(['data', 'type']);
+                        if (type === 'hero') {
+                            var headline = block.getIn(['data', 'headline']);
+                            var image = block.getIn(['data', 'image']);
+                            return h('section', { className: 'preview-hero' },
+                                h('h2', {}, headline),
+                                image ? h('img', { src: getAsset(image), style: { maxWidth: '100%' } }) : null
+                            );
+                        } else if (type === 'paragraph') {
+                            return h('section', { className: 'preview-paragraph' },
+                                block.getIn(['widgets', 'text'])
+                            );
+                        } else if (type === 'usps_section') {
+                            var sectionTitle = block.getIn(['data', 'section_title']);
+                            var usps = block.getIn(['data', 'usps']);
+                            return h('section', { className: 'preview-usps' },
+                                h('h3', {}, sectionTitle),
+                                usps && usps.map(function(usp) {
+                                    return h('div', { className: 'preview-usp' },
+                                        h('strong', {}, usp.get('usp_title')),
+                                        h('p', {}, usp.get('usp_description'))
+                                    );
+                                })
+                            );
+                        } else if (type === 'slider') {
+                            var slides = block.getIn(['data', 'slides']);
+                            return h('section', { className: 'preview-slider' },
+                                h('h4', {}, 'Slider'),
+                                slides && slides.map(function(img) {
+                                    var imgSrc = img.get ? getAsset(img.get('image')) : getAsset(img);
+                                    return h('img', { src: imgSrc, style: { maxWidth: '100px', marginRight: '8px' } });
+                                })
+                            );
+                        } else if (type === 'secondary_menu') {
+                            var menuName = block.getIn(['data', 'menu-name']);
+                            return h('section', { className: 'preview-secondary-menu' },
+                                h('h4', {}, 'Secondary Menu'),
+                                h('p', {}, menuName)
+                            );
+                        } else {
+                            return h('div', {}, 'Unknown block type');
+                        }
+                    });
+                }
+
+                return h('div', { className: 'preview-page' },
+                    h('h1', { className: 'preview-title' }, title),
+                    h('h2', { className: 'preview-url-slug' }, urlSlug),
+                    featuredImage ? h('img', { className: 'preview-featured-image', src: getAsset(featuredImage), style: { maxWidth: '100%' } }) : null,
+                    description ? h('p', { className: 'preview-description' }, description) : null,
+                    blockEls
                 );
             }
         });
 
-        CMS.registerPreviewTemplate("posts", PostPreview);
-    </script> -->
-
-
-    <!-- Initialize the CMS -->
-    <!-- <script>
-        DecapCmsApp.init();
-    </script> -->
+        window.CMS.registerPreviewTemplate("pages", PagesPreview);
+    </script>
 </body>
 
 </html>
